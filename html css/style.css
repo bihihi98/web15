@@ -1,0 +1,30 @@
+p{
+    background: rgb(206, 62, 86);
+}
+.text-red{
+    color: rgb(206, 62, 86)
+}
+#top{
+    font-size: 100px;
+}
+.text-red:hover{
+    font-size: 50px;
+    color: green;
+}
+[type='text']{
+    border: 2px solid red;
+}
+ul li{
+    font-style: italic;
+}
+ul > li{
+    color: goldenrod;
+}
+ol li{
+    color: red;
+}
+img{
+    border-radius: 100%;
+    width: 150px;
+    height: 100px;
+}
