@@ -1,0 +1,43 @@
+.menu{
+    background-color: #D5B0AC;
+    color: #402E2A;
+    font-weight: bold;
+    text-align: center;
+    line-height: 30px;  
+}
+
+.menu>span{
+    display: inline-block;
+    width: 100px;
+    height: 30px;
+    position: relative; 
+}
+
+.menu>span:hover, .sub-menu>span:hover{
+    background-color:#9CD08F;
+    color:#FFFFFF;
+    cursor: pointer;
+}
+
+.sub-menu{
+    display:none;
+    position:absolute;
+    background-color: #D5B0AC;
+}
+.sub-menu .sub-menu{
+    left:100%;
+    top:0;
+}
+
+.sub-menu>span{
+    display: block;
+    background-color: #D5B0AC;
+    color: #402E2A;
+}
+
+.menu>span:hover> .sub-menu{
+    display:block;
+    background-color:#9CD08F;
+    color:#FFFFFF;
+    cursor: pointer;
+}
