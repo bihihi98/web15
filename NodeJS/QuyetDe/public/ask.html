@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Hỏi Nhanh</title>
+    <title>HỎI NHANH</title>
 </head>
 <body>
     <nav>
@@ -16,11 +16,12 @@
     <div>
         <h1>Hãy hỏi 1 câu thật mặn</h1>
         <form action="/creatquestion" method="POST">
-            <textarea name="questionContent" id="kitu" cols="30" rows="10" maxlength="200"></textarea>
+            <textarea name="questionContent" id="kitu" cols="50" rows="10" maxlength="200"></textarea>
             <span>Còn <span id="remain">200</span>/200 kí tự</span>
-            <button type="submid">Hỏi</button>
+            <button type="submit">Hỏi</button>
         </form>
     </div>
-    <script src="/main.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="/ask.js"></script>
 </body>
 </html>
