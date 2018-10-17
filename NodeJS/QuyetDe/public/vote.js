@@ -1,31 +1,22 @@
+const params= new URL(window.location.href).pathname.split("/");
+const questionId = params[params.length-1];
+console.log(window.location.href);
+
 $.ajax({
-    url: 'http://localhost:3100/votequest',
+    url: '/questiondetail/'+questionId,
     type: "GET",
     success: function(response){
       if(response){
-        let totalVote = response.yes+response.no;
-        $("#sumvote").text(totalVote);
-        $("#vote_yes").text(response.yes/totalVote*100);
-        $("#vote_no").text(response.no/totalVote*100);
-        $("#questvote").text(response.questionContent);
+        console.log(response.question);
+        let question= response.question;
+        let totalVote = question.yes+question.no;
+        $("#questvote").text(question.questionContent);
+        $("#totalvote span").text(totalVote);
+        $("#voteYes span").text(totalVote !=0 ? parseFloat((question.yes/totalVote*100).toFixed(2)) : 0);
+        $("#voteNo span").text(totalVote !=0 ? parseFloat((question.no/totalVote*100).toFixed(2)) : 0);
       }
     },
     error: function(err){
       console.log(err);
     }
   })
-
-  $('#otherQuest').on("click", function(){
-    $.ajax({
-      url: 'http://localhost:3100/vote',
-      type: 'GET',
-      success: function(response){
-        if(response){
-          window.location.href = "/quiz";
-        }
-      },
-      error: function(err){
-        console.log(err);
-      }
-    })
-  });
