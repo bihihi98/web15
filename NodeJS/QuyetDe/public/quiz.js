@@ -5,8 +5,8 @@ function getRandomQuest(){
     success: function(response){
       if(response){
         $("#qt").text(response.questionContent);
-        $(".answer_btn").data("questionid", response.id);
-        $("#viewDetail").attr("href", "/question/" + response.id);
+        $(".answer_btn").data("questionid", response._id);
+        $("#viewDetail").attr("href", "/question/" + response._id);
       }
     },
     error: function(err){

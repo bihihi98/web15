@@ -1,27 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
     <title>HỎI NHANH</title>
 </head>
+
 <body>
-    <nav>
-        <ul>
-            <li><a href="/ask">Hỏi Nhanh</a></li>
-            <li><a href="/quiz">Đáp Gọn</a></li>
-        </ul>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-primary">
+        <a class="navbar-brand" href="/quiz.html">QUYẾT ĐÊ</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/ask.html">Hỏi nhanh</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/quiz.html">Đáp gọn</a>
+                </li>
+            </ul>
+        </div>
     </nav>
-    <div>
-        <h1>Hãy hỏi 1 câu thật mặn</h1>
-        <form action="/creatquestion" method="POST">
-            <textarea name="questionContent" id="kitu" cols="50" rows="10" maxlength="200"></textarea>
-            <span>Còn <span id="remain">200</span>/200 kí tự</span>
-            <button type="submit">Hỏi</button>
-        </form>
+    <div class="container">
+        <div>
+            <form action="/creatquestion" method="POST">
+                <div class="col-md-10">
+                    <h1 class="text-center">Hãy hỏi 1 câu thật mặn</h1>
+                    <textarea class="form-control" name="questionContent" id="kitu" maxlength="200" rows="4"></textarea>
+                    <p>Còn <span id="remain">200</span>/200 kí tự</p>
+                    <button class="btn btn-warning btn-lg" type="submit">Hỏi</button>
+                </div>
+            </form>
+        </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
     <script src="/ask.js"></script>
 </body>
+
 </html>
