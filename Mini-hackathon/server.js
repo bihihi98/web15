@@ -38,6 +38,19 @@ app.post('/creatnewgame', (req, res) => {
         })
 });
 
+app.get('/game/:idgame', (req, res) => {
+    res.sendFile(__dirname + '/public/game.html')
+});
+
+app.get('/gamedetail/:idgame', (req, res) => {
+    let idgame = req.params.idgame;
+    ScoreModel.findById(idgame, (err, gameFound) => {
+        if (err) console.log(err);
+        else if (!gameFound) console.log("not found");
+        else { res.send({success: 1, game: gameFound}); }
+    })
+});
+
 app.listen(8080, (err) => {
     if (err) console.log(err)
     else console.log('Server is listening at port 8080')
