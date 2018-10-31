@@ -30,7 +30,7 @@ app.post('/creatnewgame', (req, res) => {
         playerName1: req.body.playerName1,
         playerName2: req.body.playerName2,
         playerName3: req.body.playerName3,
-        playerName4: req.body.playerName4
+        playerName4: req.body.playerName4,
     },
         (err, scoreCreated) => {
             if (err) console.log(err);
@@ -48,6 +48,21 @@ app.get('/gamedetail/:idgame', (req, res) => {
         if (err) console.log(err);
         else if (!gameFound) console.log("not found");
         else { res.send({success: 1, game: gameFound}); }
+    })
+});
+
+app.post('/game', (req, res) => {
+    let {idgame, score, scoreinc} = req.body;
+    ScoreModel.findById(idgame, (err, gameFound) => {
+        if(err) console.log(err);
+        else if (!gameFound) console.log("not found");
+        else{
+            gameFound[score] += scoreinc;
+            gameFound.save((err)=>{
+                if(err)console.log(err);
+                else res.send({success: 1});
+            })
+        }
     })
 });
 
