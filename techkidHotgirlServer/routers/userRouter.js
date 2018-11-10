@@ -2,66 +2,93 @@ const express = require('express');
 const UserRouter = express.Router();
 const UserModel = require('../models/userModel');
 
-UserRouter.use((req, res, next) => {
-    console.log("User middleware");
-    next();
+// UserRouter.use((req, res, next) => {
+//     console.log("User middleware");
+//     next();
+// });
+
+UserRouter.get("/", async (req, res) => {
+    try {
+        const users = await UserModel.find({}, "name email avatar intro posts").populate("posts");
+        res.json({ success: 1, users })
+    }
+    catch{
+        res.status(500).json({ success: 0, error: error })
+    }
+
+    // .then(users => res.json({ success: 1, users }))
+    // .catch(err => res.status(500).json({ success: 0, error: err }))
 });
 
-UserRouter.get("/", (req, res) => {
-    UserModel.find({}, "name email avatar intro", (err, users) => {
-        if (err) res.status(500).json({ success: 0, error: err })
-        else res.json({ success: 1, users });
-    })
-});
-
-UserRouter.get("/:id", (req, res) => {
+UserRouter.get("/:id", async (req, res) => {
     let userId = req.params.id;
-    UserModel.findById(userId, (err, userFound) => {
-        if (err) res.status(500).json({ success: 0, message: err })
-        else if (!userFound._id) res.status(404).json({ success: 0, message: "Not Found" })
-        else res.json({ success: 1, user: userFound })
-    })
+    try {
+        const userFound = await UserModel.findById(userId).populate("posts");
+        if (!userFound) res.status(404).json({ success: 0, message: "Not Found" });
+        else {
+            res.json({ success: 1, user: userFound });
+        }
+    }
+    catch (error) {
+        res.status(500).json({ success: 0, error: error });
+    }
 });
 
-UserRouter.post("/", (req, res) => {
+UserRouter.post("/", async (req, res) => {
     const { name, email, password, avatar, intro } = req.body;
     console.log(req.body);
 
-    UserModel.create({ name, email, password, avatar, intro }, (err, userCreated) => {
-        if (err) res.status(500).json({ success: 0, message: err })
-        else res.status(201).json({ success: 1, user: userCreated })
-    })
+    try {
+        const userCreated = await UserModel.create({ name, email, password, avatar, intro });
+        res.status(201).json({ success: 1, user: userCreated })
+    }
+
+    catch (err) {
+        res.status(500).json({ success: 0, message: err });
+    }
 });
 
-UserRouter.put("/:id", (req, res) => {
+UserRouter.put("/:id", async (req, res) => {
     let userId = req.params.id;
-    const { name, password, avatar, intro } = req.body;
-    UserModel.findById(userId, (err, userFound) => {
-        if (err) res.status(500).json({ success: 0, message: err })
-        else if (!userFound._id) res.status(404).json({ success: 0, message: "Not Found" })
-        else {
-            for(key in { name, password, avatar, intro }) {
-                if(userFound[key] && req.body[key]) userFound[key] = req.body[key];
+    const { name, password, avatar, intro, posts } = req.body;
+    // UserModel.findById(userId, (err, userFound) => {
+    //     if (err) res.status(500).json({ success: 0, message: err })
+    //     else if (!userFound) res.status(404).json({ success: 0, message: "Not Found" })
+    //     else {
+    //         for(key in { name, password, avatar, intro, posts }) {
+    //             if(userFound[key] && req.body[key]) userFound[key] = req.body[key];
+    //         }
+    //         userFound.save((err, userUpdated) => {
+    //             if (err) res.status(500).json({ success: 0, message: err })
+    //             else res.status(201).json({ success: 1, user: userUpdated })
+    //         })
+    //     }
+    // })
+    try {
+        const userFound = await UserModel.findById(userId);
+        if (!userFound) {
+            res.status(404).json({ success: 0, message: "Not found" });
+        } else {
+            for (key in { name, password, avatar, intro, posts }) {
+                if (userFound[key] && req.body[key]) userFound[key] = req.body[key];
             }
-            userFound.save((err, userUpdated) => {
-                if (err) res.status(500).json({ success: 0, message: err })
-                else res.status(201).json({ success: 1, user: userUpdated })
-            })
+            let userUpdated = await userFound.save();
+            res.json({ success: 1, user: userUpdated });
         }
-    })
+    } catch (error) {
+        res.status(500).json({ success: 0, message: error });
+    }
 });
 
-UserRouter.delete("/:id", (req, res) => {
-    var userId = req.params.id;
-    UserModel.findByIdAndRemove(userId, (err, userRemoved) => {
-        if(err) {
-            res.status(500).json({success: 0, message: err})
-        } else if(!userRemoved._id) {
-            res.status(404).json({success: 0, message: "Not Found!"})
-        }else {
-            res.json({success: 1, user: userRemoved});
-        }
-    })
+UserRouter.delete("/:id", async (req, res) => {
+    let userId = req.params.id;
+    try {
+        await UserModel.findByIdAndRemove(userId);
+        res.json({ success: 1 });
+    }
+    catch (err) {
+        res.status(500).json({ success: 0, message: err })
+    }
 });
 
 module.exports = UserRouter;
